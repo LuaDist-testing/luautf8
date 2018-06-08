@@ -33,9 +33,9 @@ static size_t utf8_encode(char *s, unsigned ch) {
   {
     char buff[UTF8_MAX];
     unsigned mfb = 0x3F; /* maximum that fits in first byte */
-    int n = 0;
+    int n = 1;
     do { /* add continuation bytes */
-      buff[UTF8_MAX - (++n)] = 0x80 | (ch&0x3F);
+      buff[UTF8_MAX - (n++)] = 0x80 | (ch&0x3F);
       ch >>= 6; /* remove added bits */
       mfb >>= 1; /* now there is one less bit available in first byte */
     } while (ch > mfb);  /* still needs continuation byte? */
@@ -73,7 +73,7 @@ static size_t utf8_decode(const char *s, const char *e, unsigned *pch) {
   }
   {
     int count = 0; /* to count number of continuation bytes */
-    unsigned res;
+    unsigned res = 0;
     while ((ch & 0x40) != 0) { /* still have continuation bytes? */
       int cc = (unsigned char)s[++count];
       if ((cc & 0xC0) != 0x80) /* not a continuation byte? */
@@ -84,6 +84,7 @@ static size_t utf8_decode(const char *s, const char *e, unsigned *pch) {
     if (count > 5)
       goto fallback; /* invalid byte sequence */
     res |= ((ch & 0x7F) << (count * 5)); /* add first byte */
+    *pch = res;
     return count+1;
   }
 

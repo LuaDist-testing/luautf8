@@ -1,18 +1,10 @@
--- This file was automatically generated for the LuaDist project.
-
 package = "luautf8"
 version = "0.1.0-1"
 
--- LuaDist source
 source = {
-  tag = "0.1.0-1",
-  url = "git://github.com/LuaDist-testing/luautf8.git"
+  url = "https://github.com/starwing/luautf8/archive/0.1.0.tar.gz",
+  dir = "luautf8-0.1.0"
 }
--- Original source
--- source = {
---   url = "https://github.com/starwing/luautf8/archive/0.1.0.tar.gz",
---   dir = "luautf8-0.1.0"
--- }
 
 description = {
   summary = "A UTF-8 support module for Lua",
